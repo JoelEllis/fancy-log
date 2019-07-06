@@ -76,6 +76,13 @@ function info() {
   return this;
 }
 
+function user() {
+  var time = getTimestamp();
+  process.stdout.write(time + ' ' + blue('[I]') + ' ');
+  console.info.apply(console, arguments);
+  return this;
+}
+
 function dir() {
   var time = getTimestamp();
   process.stdout.write(time + ' ' + gray('[D]') + ' ');
@@ -99,6 +106,7 @@ function error() {
 
 module.exports = function(ve) {
   module.exports.error = error;
+  module.exports.user = user;
   if (ve >= 1) {
     module.exports.warn = warn;
   } else {
