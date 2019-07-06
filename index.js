@@ -1,7 +1,19 @@
 'use strict';
 
 var Console = require('console').Console;
-var gray = require('ansi-gray');
+var wrap = require('ansi-wrap');
+function gray(message) {
+  return wrap(90, 39, message);
+}
+function blue(message) {
+  return wrap(34, 39, message);
+}
+function yellow(message) {
+  return wrap(33, 39, message);
+}
+function red(message) {
+  return wrap(31, 39, message);
+}
 var timestamp = require('time-stamp');
 var supportsColor = require('color-support');
 var nodeVersion = require('parse-node-version')(process.version);
@@ -50,37 +62,37 @@ function getTimestamp() {
   return '[' + addColor(timestamp('HH:mm:ss')) + ']';
 }
 
-function log() {
+function debug() {
   var time = getTimestamp();
-  process.stdout.write(time + ' ');
+  process.stdout.write(time + ' ' + gray('[D]') + ' ');
   console.log.apply(console, arguments);
   return this;
 }
 
 function info() {
   var time = getTimestamp();
-  process.stdout.write(time + ' ');
+  process.stdout.write(time + ' ' + blue('[I]') + ' ');
   console.info.apply(console, arguments);
   return this;
 }
 
 function dir() {
   var time = getTimestamp();
-  process.stdout.write(time + ' ');
+  process.stdout.write(time + ' ' + gray('[D]') + ' ');
   console.dir.apply(console, arguments);
   return this;
 }
 
 function warn() {
   var time = getTimestamp();
-  process.stderr.write(time + ' ');
+  process.stderr.write(time + ' ' + yellow('[W]') + ' ');
   console.warn.apply(console, arguments);
   return this;
 }
 
 function error() {
   var time = getTimestamp();
-  process.stderr.write(time + ' ');
+  process.stderr.write(time + ' ' + red('[E]') + ' ');
   console.error.apply(console, arguments);
   return this;
 }
@@ -98,10 +110,10 @@ module.exports = function(ve) {
     module.exports.info = function() {};
   }
   if (ve >= 3) {
-    module.exports = log;
     module.exports.dir = dir;
+    module.exports.debug = debug;
   } else {
-    module.exports = function() {};
     module.exports.dir = function() {};
+    module.exports.debug = function() {};
   }
 };
