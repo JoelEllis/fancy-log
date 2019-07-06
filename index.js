@@ -85,8 +85,23 @@ function error() {
   return this;
 }
 
-module.exports = log;
-module.exports.info = info;
-module.exports.dir = dir;
-module.exports.warn = warn;
-module.exports.error = error;
+module.exports = function(lvl) {
+  if (ve >= 3) {
+    module.exports = log;
+    module.exports.dir = dir;
+  } else {
+    module.exports = function(){};
+    module.exports.dir = function(){};
+  }
+  if (ve >= 2) {
+    module.exports.info = info;
+  } else {
+    module.exports.info = function(){};
+  }
+  if (ve >= 1) {
+   module.exports.warn = warn;
+  } else {
+    module.exports.warn = function(){};
+  }
+  module.exports.error = error; 
+}
