@@ -85,23 +85,23 @@ function error() {
   return this;
 }
 
-module.exports = function(lvl) {
-  if (ve >= 3) {
-    module.exports = log;
-    module.exports.dir = dir;
+module.exports = function(ve) {
+  module.exports.error = error;
+  if (ve >= 1) {
+    module.exports.warn = warn;
   } else {
-    module.exports = function(){};
-    module.exports.dir = function(){};
+    module.exports.warn = function() {};
   }
   if (ve >= 2) {
     module.exports.info = info;
   } else {
-    module.exports.info = function(){};
+    module.exports.info = function() {};
   }
-  if (ve >= 1) {
-   module.exports.warn = warn;
+  if (ve >= 3) {
+    module.exports = log;
+    module.exports.dir = dir;
   } else {
-    module.exports.warn = function(){};
+    module.exports = function() {};
+    module.exports.dir = function() {};
   }
-  module.exports.error = error; 
-}
+};
