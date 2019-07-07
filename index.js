@@ -105,6 +105,7 @@ function error() {
 }
 
 module.exports = function(ve) {
+  if (ve < 0) {return;}
   module.exports.error = error;
   module.exports.user = user;
   if (ve >= 1) {
